@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace webapi.Controllers;
+namespace chatdict.webapi.Controllers;
 
 [ApiController]
 [Route("[controller]")]
