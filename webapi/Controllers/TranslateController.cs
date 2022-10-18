@@ -10,13 +10,12 @@ namespace chatdict.webapi.Controllers;
 public class TranslateController: ControllerBase
 {
     [HttpGet]
-    public TranslateModel? Get(string content)
+    public async Task<Translation?> Get(string content)
     {
         var clientBuilder = new TranslationClientBuilder();
-        var client = clientBuilder.Build();
-        var result = client.TranslateText(content, "zn-CN");
-        string resultText = result.TranslatedText;
-        return new TranslateModel(originContent: content, originLanguage: "en", targetLanguage: "cn",
-            translatedContent: resultText);
+        var client = await clientBuilder.BuildAsync();
+        var result = await client.TranslateTextAsync(content, "zh-CN");
+        return new Translation(OriginContent: content, OriginLanguage: result.DetectedSourceLanguage, TargetLanguage: result.TargetLanguage,
+            TranslatedContent: result.TranslatedText);
     }
 }
