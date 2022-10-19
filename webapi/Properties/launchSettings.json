@@ -17,7 +17,8 @@
       "applicationUrl": "http://localhost:8080",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "GOOGLE_APPLICATION_CREDENTIALS": "./dev-translate-api-key.json"
+        "GOOGLE_APPLICATION_CREDENTIALS": "./dev-translate-api-key.json",
+        "TELEGRAM_BOT_TOKEN": "<YOUR BOT TOKEN>"
       }
     },
     "IIS Express": {
