@@ -26,32 +26,32 @@ public class TelHookController: ControllerBase
             return "empty update";
         }
         
-        // var msg = update.Message;
-        // if (msg == null)
-        // {
-        //     Console.WriteLine("empty message");
-        //     return "empty msg";
-        // }
-        //
-        // Console.WriteLine($"update id: {update.Id}.  chat type: {msg.Chat.Type}, chat id: {msg.Chat.Id} {msg.Chat.Username}, text: {msg.Text}");
-        // if (string.IsNullOrEmpty(msg.Text))
-        // {
-        //     Console.WriteLine("empty test");
-        //     return "empty text";
-        // }
-        //
-        // if (msg.Text.StartsWith("/"))
-        // {
-        //     Console.WriteLine($"received tel command {msg.Text}");
-        //     return "command";
-        // }
-        //
-        // Console.WriteLine($"Update Hook {update.Id} {msg.Type} {msg.Text}");
-        //
-        // var translateResult = await TranslateService.Default.Translate(text: msg.Text, "zh-CN");
-        //
-        // var botClient = TelegramBotService.Default.Client;
-        // var sentMsg = await botClient.SendTextMessageAsync(msg.Chat.Id, translateResult.TranslatedText);
+        var msg = update.Message;
+        if (msg == null)
+        {
+            Console.WriteLine("empty message");
+            return "empty msg";
+        }
+        
+        Console.WriteLine($"update id: {update.Id}.  chat type: {msg.Chat.Type}, chat id: {msg.Chat.Id} {msg.Chat.Username}, text: {msg.Text}");
+        if (string.IsNullOrEmpty(msg.Text))
+        {
+            Console.WriteLine("empty test");
+            return "empty text";
+        }
+        
+        if (msg.Text.StartsWith("/"))
+        {
+            Console.WriteLine($"received tel command {msg.Text}");
+            return "command";
+        }
+        
+        Console.WriteLine($"Update Hook {update.Id} {msg.Type} {msg.Text}");
+        
+        var translateResult = await TranslateService.Default.Translate(text: msg.Text, "zh-CN");
+        
+        var botClient = TelegramBotService.Default.Client;
+        var sentMsg = await botClient.SendTextMessageAsync(msg.Chat.Id, translateResult.TranslatedText);
 
         return "ok";
     }
