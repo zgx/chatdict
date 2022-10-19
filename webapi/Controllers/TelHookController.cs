@@ -1,7 +1,9 @@
 ﻿
 using System.Text;
+using chatdict.webapi.Service;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
+using Telegram.Bot;
 using Telegram.Bot.Types;
 
 
