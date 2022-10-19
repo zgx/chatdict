@@ -13,20 +13,20 @@ public class TelHookController: ControllerBase
 {
 
     [HttpPost]
-    public async Task<string> OnTelUpdate([FromBody]Update? update)
+    public async Task<string> OnTelUpdate([FromBody]Update update)
     {
-        if (update == null)
-        {
-            return "update is null";
-        }
+        Console.WriteLine($"on tel webhook. {Request.ContentType} update id: {update.Id}");
         var msg = update.Message;
         if (msg == null)
         {
+            Console.WriteLine("empty message");
             return "empty msg";
         }
-
+        
+        Console.WriteLine($"message. type: {msg.Chat.Type}, chat id: {msg.Chat.Id} {msg.Chat.Username}, text: {msg.Text}");
         if (string.IsNullOrEmpty(msg.Text))
         {
+            Console.WriteLine("empty test");
             return "empty text";
         }
 
