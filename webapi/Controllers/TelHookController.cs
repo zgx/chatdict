@@ -58,9 +58,18 @@ public class TelHookController: ControllerBase
         Console.WriteLine($"Update Hook {update.Id} {msg.Type} {msg.Text}");
         
         var translateResult = await TranslateService.Default.Translate(text: msg.Text, "zh-CN");
+        string translatedText = translateResult.TranslatedText;
         
+        Console.WriteLine($"translating result. {translateResult.DetectedSourceLanguage} -> {translateResult.TargetLanguage}. {translateResult.TranslatedText}");
 
-        var sentMsg = await botClient.SendTextMessageAsync(msg.Chat.Id, translateResult.TranslatedText);
+        if (translateResult.DetectedSourceLanguage.StartsWith("zh"))
+        {
+            Console.WriteLine($"Source language is zh. translate to English");
+            var translateResult2 = await TranslateService.Default.Translate(text: msg.Text, "en");
+            translatedText = translateResult2.TranslatedText;
+        }
+        
+        var sentMsg = await botClient.SendTextMessageAsync(msg.Chat.Id, translatedText);
         
         return "ok";
     }
@@ -70,6 +79,7 @@ public class TelHookController: ControllerBase
         string content = @"最简单好用的翻译机器人
 有什么直接发给我，转发也行
 我翻译成中文
+发我中文也行，试试呗
 ";
         return content;
 
