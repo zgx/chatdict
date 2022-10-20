@@ -67,10 +67,9 @@ public class TelHookController: ControllerBase
 
     private string ReplyOfStartCommand()
     {
-        string content = @"欢迎使用KiKi翻译机器人
-用法很简单
-看不懂的发给我，转发也行
-我回你中文
+        string content = @"最简单好用的翻译机器人
+有什么直接发给我，转发也行
+我翻译成中文
 ";
         return content;
 
