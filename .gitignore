@@ -1,5 +1,7 @@
 .theia
 .vscode
+.idea
+*.user
 bin/
 obj/
 
