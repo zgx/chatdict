@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.Text;
 using chatdict.webapi.Service;
 using Microsoft.AspNetCore.Mvc;
@@ -56,20 +57,33 @@ public class TelHookController: ControllerBase
         }
         
         Console.WriteLine($"Update Hook {update.Id} {msg.Type} {msg.Text}");
-        
-        var translateResult = await TranslateService.Default.Translate(text: msg.Text, "zh-CN");
-        string translatedText = translateResult.TranslatedText;
-        
-        Console.WriteLine($"translating result. {translateResult.DetectedSourceLanguage} -> {translateResult.TargetLanguage}. {translateResult.TranslatedText}");
+        string translatedText = "";
+        try{
+            var translateResult = await TranslateService.Default.Translate(text: msg.Text, "zh-CN");
+            translatedText = translateResult.TranslatedText;
 
-        if (translateResult.DetectedSourceLanguage.StartsWith("zh"))
-        {
-            Console.WriteLine($"Source language is zh. translate to English");
-            var translateResult2 = await TranslateService.Default.Translate(text: msg.Text, "en");
-            translatedText = translateResult2.TranslatedText;
+            Console.WriteLine($"translating result. {translateResult.DetectedSourceLanguage} -> {translateResult.TargetLanguage}. {translateResult.TranslatedText}");
+
+            if (translateResult.DetectedSourceLanguage.StartsWith("zh"))
+            {
+                Console.WriteLine($"Source language is zh. translate to English");
+                var translateResult2 = await TranslateService.Default.Translate(text: msg.Text, "en");
+                translatedText = translateResult2.TranslatedText;
+            }
         }
-        
-        var sentMsg = await botClient.SendTextMessageAsync(msg.Chat.Id, translatedText);
+        catch (Exception e)
+        {
+            translatedText = $"Error: {e.Message}";
+        }
+
+
+        try{
+            var sentMsg = await botClient.SendTextMessageAsync(msg.Chat.Id, translatedText);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Send Tel Text Message Error: {e.Message}");
+        }
         
         return "ok";
     }
